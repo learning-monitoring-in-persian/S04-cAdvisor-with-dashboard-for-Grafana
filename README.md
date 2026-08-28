@@ -68,7 +68,7 @@ Example `docker-compose.yml`:
 ```yaml
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: ghcr.io/google/cadvisor:v0.60.5
     container_name: cadvisor
     restart: unless-stopped
     devices:
@@ -114,9 +114,11 @@ To visualize the metrics collected by cAdvisor, you can import community dashboa
 - [Docker Container Monitoring (19908)](https://grafana.com/grafana/dashboards/19908-docker-container-monitoring-with-prometheus-and-cadvisor/)
 
 > [!WARNING]
-> **cgroup v1 vs. cgroup v2**
+> **cgroup v2 and containerd snapshotter**
 >
-> Some older Grafana dashboards for cAdvisor are explicitly written for **cgroup v1** metrics, while newer ones are optimized for **cgroup v2**. If you import a dashboard and some panels are empty, it's highly likely because of a mismatch between the dashboard's queries and your system's cgroup version.
+> It is highly recommended to use newer versions of cAdvisor. Linux has moved towards **cgroup v2**, and Docker has transitioned to using the **containerd snapshotter** (instead of `overlay2`). Older versions of cAdvisor are not compatible with these changes. Even the current version (`v0.60.5`) has some compatibility issues with recent containerd snapshotter changes. Always try to use the latest version available to avoid missing metrics.
+>
+> Additionally, some older Grafana dashboards are explicitly written for **cgroup v1** metrics, while newer ones are optimized for **cgroup v2**. If you import a dashboard and some panels are empty, it's highly likely because of a mismatch between the dashboard's queries and your system's cgroup version.
 
 ### How to check your cgroup version:
 

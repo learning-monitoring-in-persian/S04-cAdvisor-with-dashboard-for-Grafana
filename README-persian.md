@@ -70,7 +70,7 @@ sudo systemctl start cadvisor
 ```yaml
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    image: ghcr.io/google/cadvisor:v0.60.5
     container_name: cadvisor
     restart: unless-stopped
     devices:
@@ -116,10 +116,11 @@ scrape_configs:
 - [cAdvisor Dashboard (19792)](https://grafana.com/grafana/dashboards/19792-cadvisor-dashboard/)
 - [Docker Container Monitoring (19908)](https://grafana.com/grafana/dashboards/19908-docker-container-monitoring-with-prometheus-and-cadvisor/)
 
-> ### توجه بسیار مهم (cgroup v1 در برابر cgroup v2)
+> ### توجه بسیار مهم (cgroup v2 و containerd snapshotter)
 >
-> ساختار لینوکس در سال‌های اخیر از **cgroup v1** به **cgroup v2** تغییر کرده است.
-> بعضی از داشبوردهای قدیمی‌ترِ گرافانا صرفاً برای متریک‌های cgroup v1 نوشته شده‌اند و برخی برای نسخه‌های جدید (v2) بهینه‌سازی شده‌اند. اگر داشبوردی ایمپورت کردید و بعضی پنل‌های آن خالی بود و خطای **No Data** می‌داد، به احتمال خیلی زیاد دلیلش این است که کوئری‌های آن داشبورد با ورژن cgroup سرور شما همخوانی ندارد.
+> ترجیحاً از نسخه‌های جدیدتر cAdvisor استفاده کنید. از آنجایی که لینوکس به سمت استفاده از **cgroup v2** رفته است و همچنین داکر به جای `overlay2` از **containerd snapshotter** استفاده می‌کند، نسخه‌های قدیمی cAdvisor با این تغییرات سازگار نیستند. حتی در زمان فعلی، نسخه `v0.60.5` با بخشی از تغییرات containerd snapshotter سازگاری کامل ندارد. بنابراین در صورت انتشار نسخه جدیدتر، حتماً از آن استفاده کنید.
+>
+> همچنین به یاد داشته باشید که بعضی از داشبوردهای قدیمی‌ترِ گرافانا صرفاً برای متریک‌های **cgroup v1** نوشته شده‌اند و برخی برای نسخه‌های جدید (v2) بهینه‌سازی شده‌اند. اگر داشبوردی ایمپورت کردید و بعضی پنل‌های آن خالی بود و خطای **No Data** می‌داد، به احتمال خیلی زیاد دلیلش این است که کوئری‌های آن داشبورد با ورژن cgroup سرور شما همخوانی ندارد.
 
 ### چگونه ورژن cgroup سرور را چک کنیم؟
 
